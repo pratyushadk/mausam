@@ -8,7 +8,7 @@ import { router } from "./routes"
 
 export function createApp() {
   const app = express()
-  app.use(helmet())
+  app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }))
   app.use(cors({ origin: env.FRONTEND_ORIGIN, allowedHeaders: ["Content-Type", "X-Client-Id"] }))
   app.use(express.json({ limit: "1mb" }))
   app.use(rateLimit({ windowMs: 60_000, limit: 120, standardHeaders: true, legacyHeaders: false }))
