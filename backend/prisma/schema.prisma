@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Search {
+  id           String        @id @default(uuid())
+  clientId     String        @map("client_id")
+  queryText    String        @map("query_text")
+  title        String
+  notes        String        @default("")
+  locationName String        @map("location_name")
+  country      String?
+  adminRegion  String?       @map("admin_region")
+  latitude     Float
+  longitude    Float
+  timezone     String?
+  startDate    DateTime      @map("start_date") @db.Date
+  endDate      DateTime      @map("end_date") @db.Date
+  provider     String        @default("open-meteo")
+  units        Json
+  snapshot     Json
+  airQuality   Json?         @map("air_quality")
+  retrievedAt  DateTime      @map("retrieved_at")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  observations Observation[]
+
+  @@index([clientId, createdAt])
+  @@index([clientId, locationName])
+  @@index([startDate, endDate])
+  @@map("searches")
+}
+
+model Observation {
+  id                     String   @id @default(uuid())
+  searchId               String   @map("search_id")
+  observationDate        DateTime @map("observation_date") @db.Date
+  kind                   String
+  temperatureMax         Float?   @map("temperature_max")
+  temperatureMin         Float?   @map("temperature_min")
+  temperatureMean        Float?   @map("temperature_mean")
+  apparentTemperatureMax Float?   @map("apparent_temperature_max")
+  precipitationSum       Float?   @map("precipitation_sum")
+  windSpeedMax           Float?   @map("wind_speed_max")
+  windDirection          Float?   @map("wind_direction")
+  weatherCode            Int?     @map("weather_code")
+  uvIndexMax             Float?   @map("uv_index_max")
+  source                 String
+  search                 Search   @relation(fields: [searchId], references: [id], onDelete: Cascade)
+
+  @@index([searchId])
+  @@map("observations")
+}

@@ -1,0 +1,30 @@
+{
+  "name": "mausam-api",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "postinstall": "prisma generate",
+    "test": "tsx --test tests/dates.test.ts tests/csv.test.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "pdfkit": "^0.17.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.23",
+    "@types/node": "^24.10.1",
+    "@types/pdfkit": "^0.17.3",
+    "prisma": "^6.19.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
