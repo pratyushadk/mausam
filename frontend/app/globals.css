@@ -3,7 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 html {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 :root {
